@@ -17,6 +17,11 @@ public class Salon {
 	@Column(name = "\"capacidadAlumnos\"")
 	private Integer capacidadAlumnos;
 
+	
+	public Salon() {
+	
+	}
+
 	public Integer getIdSalon() {
 		return idSalon;
 	}

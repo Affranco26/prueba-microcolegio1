@@ -1,0 +1,59 @@
+{
+	"Projects":	[
+		{
+			"name":	"prueba-microcolegio1",
+			"node": "java-mvn-oc-node1",
+			"technology": "Services",
+            "repositoryURL": "https://github.com/Affranco26/prueba-microcolegio1.git",			  
+            "mainProjectPath": "",
+            "scriptBuildTest":[
+                "mvn -v",
+                "mvn clean",
+                "mvn install -DskipTests"
+            ],
+			"scriptBuildProd":[
+                "mvn -v",
+                "mvn clean",
+                "mvn install -DskipTests"
+            ],
+            "sonarWithOSPlugin": false,
+            "sonarEnvironment": "sonarqube-interno",
+            "scriptSonar": "mvn clean jacoco:prepare-agent install sonar:sonar -Dsonar.projectKey=prueba-microcolegio1",
+            "scriptTestReportPath": "",
+            "unitTestProjectPath": "",
+			"scriptUnitTest":[
+				"mvn test"
+			],
+			"kiuwan": {
+                "lastDelivery": "",
+                "lastAnalysis": "https://api.kiuwan.com/deliveries/last_analysis?application=Microservicios.Colombia",
+                "baseAnalysis": "",
+              "branch": "prueba-microcolegio1"
+            },              
+            "nexus":{
+            	"instance":"",
+                "repository": "devops_releases",
+                "packageType": "app",
+                "packageExtension": "jar",
+            	"packagePath":"/target/",
+                "packageName": "prueba-microcolegio1"
+            },
+			"deployType": "OCP",
+            "deployWithDocker": true,
+			"deploy":{
+				"dev":{
+					"hasEnvironment": true,
+                    "namespace": "transversales",
+                    "appName": "prueba-microcolegio1",
+                    "template": "deploymentDesarrollo.yaml"
+				},
+				"prd":{
+					"hasEnvironment": true,
+                    "namespace": "transversales",
+                    "appName": "prueba-microcolegio1",
+                    "template": "deployment.yaml"
+				}
+			}
+		}
+	]
+}

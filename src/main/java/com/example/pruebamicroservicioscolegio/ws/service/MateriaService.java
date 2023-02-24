@@ -4,6 +4,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 
 import com.example.pruebamicroservicioscolegio.ws.dto.MateriasAddDTO;
 import com.example.pruebamicroservicioscolegio.ws.dto.MateriasDTO;
@@ -42,21 +43,25 @@ public class MateriaService {
 		return null;
 
 	}
-	
-	
+
 	public RespuestaMateriasAddDTO crearMateria(MateriasAddDTO mateeAddDTO) {
-		
-		Materias mat = new Materias();
-		mat.setNombreMateria(mateeAddDTO.getNombreMateria());
-		mat.setIdAlumno(mateeAddDTO.getIdAlumno());
-		mat.setNotaFinal(mateeAddDTO.getNotaFinal());
-		maRepo.save(mat);
-		RespuestaMateriasAddDTO ma= new RespuestaMateriasAddDTO();
-		ma.setIdAlumno(mat.getIdAlumno());
-		ma.setIdMateria(mat.getIdMateria());
-		ma.setNombreMateria(mat.getNombreMateria());
-		ma.setNotaFinal(mat.getNotaFinal());
-		return ma;
-		
+		try {
+			Materias mat = new Materias();
+			mat.setNombreMateria(mateeAddDTO.getNombreMateria());
+			mat.setIdAlumno(mateeAddDTO.getIdAlumno());
+			mat.setNotaFinal(mateeAddDTO.getNotaFinal());
+			maRepo.save(mat);
+			RespuestaMateriasAddDTO ma = new RespuestaMateriasAddDTO();
+			ma.setIdAlumno(mat.getIdAlumno());
+			ma.setIdMateria(mat.getIdMateria());
+			ma.setNombreMateria(mat.getNombreMateria());
+			ma.setNotaFinal(mat.getNotaFinal());
+			return ma;
+			
+		} catch (Exception e) {
+			
+			return null;
+		}
+
 	}
 }

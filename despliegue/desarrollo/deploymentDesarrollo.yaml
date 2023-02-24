@@ -1,0 +1,127 @@
+apiVersion: template.openshift.io/v1
+kind: Template
+metadata:
+  name: prueba-microcolegio1
+  annotations:
+    description: "Template para generacion del servicio de prueba-microcolegio1 para Telefonica"
+objects:
+  - apiVersion: apps.openshift.io/v1
+    kind: DeploymentConfig
+    metadata:
+      labels:
+        app: prueba-microcolegio1
+      name: prueba-microcolegio1
+      namespace: transversales
+    spec:
+      replicas: 1
+      revisionHistoryLimit: 10
+      selector:
+        app: prueba-microcolegio1
+        deploymentconfig: prueba-microcolegio1
+      template:
+        metadata:
+          annotations:
+            sidecar.istio.io/inject: "true"
+          labels:
+            app: prueba-microcolegio1
+            deploymentconfig: code-use-plan
+        spec:
+          containers:
+            - name: prueba-microcolegio1
+              env:
+                - name: SPRING_APPLICATION_JSON
+                  value: '{"server":{"undertow":{"io-threads":10, "worker-threads":80 }}}'
+                - name: JAVA_OPTIONS
+                  value: -Xms640m -Xmx1024m -Dfile.encoding=ISO-8859-1
+              image: image-registry.openshift-image-registry.svc:5000/transversales/code-use-plan:latest
+              imagePullPolicy: Always
+              envFrom:
+                - configMapRef:
+                    name: configmap-prueba-microcolegio1
+                - secretRef:
+                    name: secret-nabis-scl
+              resources:
+                limits:
+                  cpu: 400m
+                  memory: 1Gi
+                requests:
+                  cpu: 200m
+                  memory: 640Mi
+          dnsPolicy: ClusterFirst
+          restartPolicy: Always
+          schedulerName: default-scheduler
+          securityContext: { }
+          terminationGracePeriodSeconds: 30
+  - apiVersion: v1
+    kind: Service
+    metadata:
+      labels:
+        app: prueba-microcolegio1
+      name: prueba-microcolegio1
+      namespace: transversales
+    spec:
+      ports:
+        - name: http-web
+          port: 8080
+          protocol: TCP
+          targetPort: 8080
+      selector:
+        deploymentconfig: prueba-microcolegio1
+      sessionAffinity: None
+      type: ClusterIP
+  - apiVersion: autoscaling/v2beta2
+    kind: HorizontalPodAutoscaler
+    metadata:
+      labels:
+        app: prueba-microcolegio1
+      name: prueba-microcolegio1
+      namespace: transversales
+    spec:
+      scaleTargetRef:
+        apiVersion: apps.openshift.io/v1
+        kind: DeploymentConfig
+        name: prueba-microcolegio1
+      minReplicas: 1
+      maxReplicas: 2
+      metrics:
+        - type: Resource
+          resource:
+            name: cpu
+            target:
+              averageUtilization: 80
+              type: Utilization
+  - kind: ConfigMap
+    apiVersion: v1
+    metadata:
+      name: configmap-prueba-microcolegio1
+    data:
+      server.port: "8080"
+  - apiVersion: networking.istio.io/v1beta1
+    kind: DestinationRule
+    metadata:
+      name: prueba-microcolegio1
+      namespace: transversales
+    spec:
+      host: prueba-microcolegio1
+      trafficPolicy:
+        tls:
+          mode: ISTIO_MUTUAL
+  - apiVersion: networking.istio.io/v1beta1
+    kind: VirtualService
+    metadata:
+      name: prueba-microcolegio1
+      namespace: transversales
+    spec:
+      gateways:
+        - istio-system/wildcard-gateway
+      hosts:
+        - '*'
+      http:
+        - match:
+            - uri:
+                regex: /nttdata/service/v1/prueba-microcolegio1/.*
+          route:
+            - destination:
+                host: prueba-microcolegio1
+                port:
+                  number: 8080

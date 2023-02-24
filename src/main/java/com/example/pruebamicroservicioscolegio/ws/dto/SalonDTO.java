@@ -2,6 +2,14 @@ package com.example.pruebamicroservicioscolegio.ws.dto;
 
 import java.util.List;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class SalonDTO {
 
 	private Integer idSalon;
@@ -12,37 +20,7 @@ public class SalonDTO {
 	// private String nombreAlumno;
 	private List<AlumnosDTO> alumnos;
 
-	public Integer getIdSalon() {
-		return idSalon;
-	}
 
-	public void setIdSalon(Integer idSalon) {
-		this.idSalon = idSalon;
-	}
-
-	public String getNombreSalon() {
-		return nombreSalon;
-	}
-
-	public void setNombreSalon(String nombreSalon) {
-		this.nombreSalon = nombreSalon;
-	}
-
-	public Integer getCantidad() {
-		return cantidad;
-	}
-
-	public void setCantidad(Integer cantidad) {
-		this.cantidad = cantidad;
-	}
-
-	public List<AlumnosDTO> getAlumnos() {
-		return alumnos;
-	}
-
-	public void setAlumnos(List<AlumnosDTO> alumnos) {
-		this.alumnos = alumnos;
-	}
 	/*
 	 * public String getNombreMateria() { return nombreMateria; }
 	 * 

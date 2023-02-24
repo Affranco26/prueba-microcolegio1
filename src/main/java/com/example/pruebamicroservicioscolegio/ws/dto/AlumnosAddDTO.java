@@ -7,30 +7,27 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 public class AlumnosAddDTO {
-	@NotNull(message= "El campo documento Alumno no puede ser vacio")
-	@NotEmpty (message= "el campo documento Alumno  no puede ser nulo")
-	@NotBlank
+	// @NotEmpty(message= "El campo documento Alumno no puede ser vacio")
+	// @NotNull(message= "El campo documento Alumno no puede ser nulo")
+	@NotBlank(message = "El campo documento Alumno  no puede ser nulo ni vacio")
 	private String documentoAlumno;
-	@NotEmpty  
-	@NotNull
-	@NotBlank(message= "El campo nombre Alumno no puede ser nulo o vacio")
+
+	@NotBlank(message = "El campo nombre Alumno no puede ser nulo ni vacio")
 	private String nombreAlumno;
-	@NotNull(message= "El campo fecha Nacimiento no puede ser vacio")
+
+	@NotNull(message = "El campo fecha Nacimiento no puede ser nulo ni vacio")
 	private Date fechaNacimiento;
 	
-	@NotEmpty (message= "el campo direccionVivienda no puede ser nulo")
-	@NotNull(message= "El campo direccion Vivienda no puede ser vacio")
-	@NotBlank
+	@NotBlank(message = "El campo direccion Vivienda no puede ser nulo ni vacio")
 	private String direccionVivienda;
-	@NotEmpty (message= "el campo nombre Acudiente no puede ser nulo")
-	@NotNull(message= "El campo nombre Acudiente no puede ser vacio")
-	@NotBlank
+	
+	@NotBlank(message = "El campo nombre Acudiente no puede ser nulo ni vacio")
 	private String nombreAcudiente;
-	@NotEmpty (message= "el campo numero Contacto no puede ser nulo")
-	@NotNull(message= "El campo numero Contacto no puede ser vacio")
-	@NotBlank
+	
+	@NotBlank(message = "El campo numero Contacto no puede ser nulo ni vacio")
 	private String numeroContacto;
-	@NotNull(message= "El campo id Salon no puede ser vacio")
+	
+	@NotNull(message = "El campo id Salon no puede ser nulo")
 	private Integer idSalon;
 
 	public String getDocumentoAlumno() {

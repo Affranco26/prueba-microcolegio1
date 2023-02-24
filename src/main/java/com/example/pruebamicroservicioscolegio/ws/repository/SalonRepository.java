@@ -21,7 +21,7 @@ public interface SalonRepository extends JpaRepository<Salon, Integer> {
 	// Salon findById(int idSalon);
 
 	@Query(nativeQuery = true, value = "select \"idSalon\", \"nombreCurso\", \"capacidadAlumnos\" from \"tbl_salon\"  where \"nombreCurso\" =:nombreCurso")
-	Map<String, Object> salonPorNombre(String nombreCurso);
+	Salon salonPorNombre(String nombreCurso);
 
 	@Query(nativeQuery = true, value = "SELECT \"tbl_materias\".\"nombreMateria\", \"tbl_materias\".\"notaFinal\", \"tbl_alumnos\".\"nombreAlumno\", \"tbl_salon\".\"nombreCurso\" from \"tbl_salon\" INNER JOIN \"tbl_alumnos\" ON \"tbl_salon\".\"idSalon\"=\"tbl_alumnos\".\"idSalon\" INNER JOIN \"tbl_materias\" ON \"tbl_materias\".\"idAlumno\"= \"tbl_alumnos\".\"idAlumno\" WHERE \"tbl_alumnos\".\"nombreAlumno\"=:nombreAlumno")
 	List<Map<String, Object>> materiasNombre(String nombreAlumno);

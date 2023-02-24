@@ -15,6 +15,23 @@ public class AlumnosDTO {
 	private Integer idSalon;
 	private List<MateriasDTO> materia;
 
+	public AlumnosDTO() {
+		super();
+	}
+
+	public AlumnosDTO(Integer idAlumno, String documentoAlumno, String nombreAlumno, Date fechaNacimiento,
+			String direccionVivienda, String nombreAcudiente, String numeroContacto, Integer idSalon) {
+		super();
+		this.idAlumno = idAlumno;
+		this.documentoAlumno = documentoAlumno;
+		this.nombreAlumno = nombreAlumno;
+		this.fechaNacimiento = fechaNacimiento;
+		this.direccionVivienda = direccionVivienda;
+		this.nombreAcudiente = nombreAcudiente;
+		this.numeroContacto = numeroContacto;
+		this.idSalon = idSalon;
+	}
+
 	public Integer getIdAlumno() {
 		return idAlumno;
 	}

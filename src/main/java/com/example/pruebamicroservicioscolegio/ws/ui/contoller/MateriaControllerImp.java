@@ -42,6 +42,7 @@ public class MateriaControllerImp implements MateriaController {
 	public ResponseEntity<ResponseDTO> ingresarMateria(@Valid MateriasAddDTO materiasAdd) throws SiecaException {
 		RespuestaMateriasAddDTO respuesta = materiaService.crearMateria(materiasAdd);
 		ResponseDTO responseDTO = new ResponseDTO();
+	
 		if (respuesta != null) {
 			responseDTO.setResponse(respuesta);
 			responseDTO.getServiceException().setMessageId("200");

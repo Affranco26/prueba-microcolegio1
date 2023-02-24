@@ -101,7 +101,7 @@ public class SalonControllerImpl implements SalonController {
 	@Override
 	public ResponseEntity<ResponseDTO> consultarColegio() throws SiecaException {
 
-		List<SalonDTO> respuesta = salonService.datosColegio2();
+		List<SalonDTO> respuesta = salonService.datosColegio();
 		ResponseDTO responseDTO = new ResponseDTO();
 		if (respuesta != null) {
 			responseDTO.setResponse(respuesta);
@@ -134,6 +134,8 @@ public class SalonControllerImpl implements SalonController {
 			return new ResponseEntity(responseDTO, HttpStatus.BAD_REQUEST);
 		}
 	}
+
+
 
 
 

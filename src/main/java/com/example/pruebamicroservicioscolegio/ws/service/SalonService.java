@@ -34,15 +34,14 @@ public class SalonService {
 	MateriaRepository materiaRepository;
 
 	public SalonDTO consultarSalon(String nombreSalon) {
-		// Salon respSa = salonRepository.findByNombreCurso(nombreSalon);
-		// Salon respSa = salonRepository.getById(null)
-		Map<String, Object> respSa = salonRepository.salonPorNombre(nombreSalon);
+
+		Salon respSa = salonRepository.salonPorNombre(nombreSalon);
 		if (respSa != null) {
 			SalonDTO respuesta = new SalonDTO();
-			// System.out.println("Esto es lo que devuelve la consulta " + respSa);
-			respuesta.setIdSalon(Integer.parseInt(respSa.get("idSalon").toString()));
-			respuesta.setNombreSalon(respSa.get("nombreCurso").toString());
-			respuesta.setCantidad(Integer.parseInt(respSa.get("capacidadAlumnos").toString()));
+			respuesta.setIdSalon(respSa.getIdSalon());
+			respuesta.setNombreSalon(respSa.getNombreCurso());
+			respuesta.setCantidad(respSa.getCapacidadAlumnos());
+
 			return respuesta;
 		}
 
@@ -61,8 +60,7 @@ public class SalonService {
 				return idResp;
 			}
 		} catch (Exception e) {
-			// TODO: handle exception
-			// throw new SiecaException("400", e.getMessage());
+
 			return null;
 		}
 
@@ -115,6 +113,7 @@ public class SalonService {
 
 	public List<SalonDTO> datosColegio() {
 		try {
+
 			List<Map<String, Object>> datosSalon = salonRepository.datosSalon();
 			List<Map<String, Object>> datosAlumnos = salonRepository.datosAlumnos();
 			List<Map<String, Object>> datosMaterias = salonRepository.datosMaterias();
@@ -126,12 +125,15 @@ public class SalonService {
 				salon.setNombreSalon(mapDatosSalones.get("nombreCurso").toString());
 				salon.setCantidad(Integer.parseInt(mapDatosSalones.get("capacidadAlumnos").toString()));
 				salon.setIdSalon(Integer.parseInt(mapDatosSalones.get("idSalon").toString()));
+				System.out.println(salon.getNombreSalon());
+				System.out.println(salon.getCantidad());
+				System.out.println(salon.getIdSalon());
 
 				List<AlumnosDTO> listaAlumnos = new ArrayList<>();
 				for (Map<String, Object> mapDatosAlumnos : datosAlumnos) {
 					int llaveAlumnosSalon = Integer.parseInt(mapDatosAlumnos.get("idSalon").toString());
 
-					if (llaveAlumnosSalon == llaveSalon) {
+					if (llaveSalon == llaveAlumnosSalon) {
 						AlumnosDTO alumno = new AlumnosDTO();
 						alumno.setIdAlumno(Integer.parseInt(mapDatosAlumnos.get("idAlumno").toString()));
 						alumno.setNombreAlumno(mapDatosAlumnos.get("nombreAlumno").toString());
@@ -141,6 +143,14 @@ public class SalonService {
 						alumno.setFechaNacimiento(Date.valueOf(mapDatosAlumnos.get("fechaNacimiento").toString()));
 						alumno.setNombreAcudiente(mapDatosAlumnos.get("nombreAcudiente").toString());
 						alumno.setNumeroContacto(mapDatosAlumnos.get("numeroContacto").toString());
+						System.out.println(alumno.getDocumentoAlumno());
+						System.out.println(alumno.getNombreAcudiente());
+						System.out.println(alumno.getNombreAlumno());
+						System.out.println(alumno.getNumeroContacto());
+						System.out.println(alumno.getFechaNacimiento());
+						System.out.println(alumno.getIdSalon());
+						System.out.println(alumno.getIdAlumno());
+						System.out.println(alumno.getDireccionVivienda());
 
 						List<MateriasDTO> listaMaterias = new ArrayList<>();
 						for (Map<String, Object> mapDatosMaterias : datosMaterias) {
@@ -150,11 +160,17 @@ public class SalonService {
 								materia.setIdMateria(Integer.parseInt(mapDatosMaterias.get("idMateria").toString()));
 								materia.setIdAlumno(Integer.parseInt(mapDatosMaterias.get("idAlumno").toString()));
 								materia.setNombreMateria(mapDatosMaterias.get("nombreMateria").toString());
-								materia.setNotaFinal(Double.parseDouble(mapDatosMaterias.get("notaFinal").toString()));
+							    materia.setNotaFinal(Double.parseDouble(mapDatosMaterias.get("notaFinal").toString()));
+								System.out.println(materia.getNombreMateria());
+								System.out.println(materia.getIdAlumno());
+								System.out.println(materia.getNotaFinal());
+								System.out.println(materia.getIdMateria());
+
 								listaMaterias.add(materia);
 							}
 						}
 						alumno.setMateria(listaMaterias);
+						System.out.println(alumno.getMateria());
 						listaAlumnos.add(alumno);
 					}
 				}
@@ -162,9 +178,9 @@ public class SalonService {
 				listaSalon.add(salon);
 			}
 			return listaSalon;
-
 		} catch (Exception e) {
-
+			
+			System.out.println("El error es "+e.getMessage());
 			return null;
 		}
 
@@ -207,7 +223,7 @@ public class SalonService {
 								mat.setNombreMateria(materias.getNombreMateria());
 								mat.setIdAlumno(materias.getIdAlumno());
 								mat.setNotaFinal(materias.getNotaFinal());
-								mat.setIdMateria(materias.getIdMateria());
+								mat.setIdMateria(materias.getIdMateria());  
 								lisMat.add(mat);
 							}
 						}
@@ -259,7 +275,7 @@ public class SalonService {
 			}
 
 			return respuesta;
-			
+
 		} catch (Exception MethodArgumentNotValidException) {
 			// TODO: handle exception
 			return null;
